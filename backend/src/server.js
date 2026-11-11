@@ -6,11 +6,14 @@ const pool = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const authenticateToken = require("./middleware/authMiddleware");
 const authorizeRole = require("./middleware/roleMiddleware");
+const classRoutes = require("./routes/classRoutes");
+
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/classes", classRoutes);
 
 // Home route
 app.get("/", (req, res) => {
