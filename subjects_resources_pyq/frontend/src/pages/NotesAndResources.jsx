@@ -21,6 +21,75 @@ const SORT_OPTIONS = [
   { label: 'A-Z', value: 'name_asc' },
 ];
 
+const DEFAULT_RESOURCES = [
+  {
+    id: 1,
+    file_name: 'Unit 3 – Trees & Graphs.pdf',
+    title: 'Unit 3 – Trees & Graphs',
+    subject_name: 'Data Structures',
+    unit_name: 'Unit 3',
+    file_size_formatted: '2.4 MB',
+    date: 'Today, 9:12 AM',
+    file_type: 'pdf',
+    resource_type: 'notes',
+  },
+  {
+    id: 2,
+    file_name: 'SQL Joins – Lecture Notes.pdf',
+    title: 'SQL Joins – Lecture Notes',
+    subject_name: 'Database Management',
+    unit_name: 'Unit 2',
+    file_size_formatted: '1.8 MB',
+    date: 'Yesterday',
+    file_type: 'pdf',
+    resource_type: 'notes',
+  },
+  {
+    id: 3,
+    file_name: 'Stack & Queue Practice.pdf',
+    title: 'Stack & Queue Practice',
+    subject_name: 'Data Structures',
+    unit_name: 'Unit 2',
+    file_size_formatted: '640 KB',
+    date: '09 Nov 2026',
+    file_type: 'pdf',
+    resource_type: 'study_material',
+  },
+  {
+    id: 4,
+    file_name: 'OOP Concepts – Study Guide.pdf',
+    title: 'OOP Concepts – Study Guide',
+    subject_name: 'Object-oriented Programming',
+    unit_name: 'Unit 1',
+    file_size_formatted: '3.2 MB',
+    date: '08 Nov 2026',
+    file_type: 'pdf',
+    resource_type: 'study_material',
+  },
+  {
+    id: 5,
+    file_name: 'Process Scheduling.pdf',
+    title: 'Process Scheduling',
+    subject_name: 'Operating Systems',
+    unit_name: 'Unit 2',
+    file_size_formatted: '1.5 MB',
+    date: '07 Nov 2026',
+    file_type: 'pdf',
+    resource_type: 'notes',
+  },
+  {
+    id: 6,
+    file_name: 'Graph Traversal – Reference.pdf',
+    title: 'Graph Traversal – Reference',
+    subject_name: 'Data Structures',
+    unit_name: 'Unit 3',
+    file_size_formatted: '920 KB',
+    date: '06 Nov 2026',
+    file_type: 'pdf',
+    resource_type: 'study_material',
+  },
+];
+
 export default function NotesAndResources() {
   const [resources, setResources] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -60,10 +129,22 @@ export default function NotesAndResources() {
 
       const res = await getResources(params);
       const data = res.data?.data || res.data || [];
-      setResources(Array.isArray(data) ? data : []);
+      if (Array.isArray(data) && data.length > 0) {
+        setResources(data);
+      } else {
+        let filtered = DEFAULT_RESOURCES;
+        if (activeTab === 'Notes') filtered = filtered.filter((r) => r.resource_type === 'notes');
+        else if (activeTab === 'PDFs') filtered = filtered.filter((r) => r.file_type === 'pdf');
+        else if (activeTab === 'Study materials') filtered = filtered.filter((r) => r.resource_type === 'study_material');
+        setResources(filtered);
+      }
     } catch (err) {
-      setError('Failed to load resources.');
-      console.error(err);
+      console.warn('API unavailable, loading mockup resources:', err.message);
+      let filtered = DEFAULT_RESOURCES;
+      if (activeTab === 'Notes') filtered = filtered.filter((r) => r.resource_type === 'notes');
+      else if (activeTab === 'PDFs') filtered = filtered.filter((r) => r.file_type === 'pdf');
+      else if (activeTab === 'Study materials') filtered = filtered.filter((r) => r.resource_type === 'study_material');
+      setResources(filtered);
     } finally {
       setLoading(false);
     }

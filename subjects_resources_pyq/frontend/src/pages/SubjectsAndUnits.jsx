@@ -24,6 +24,22 @@ const FILTER_TABS = [
   'Semester 3',
 ];
 
+const DEFAULT_SUBJECTS = [
+  { id: 1, name: 'Data Structures & Algorithms', code: 'CS301', semester: 5, unit_count: 6, class_name: 'CS-5A' },
+  { id: 2, name: 'Database Management Systems', code: 'CS302', semester: 5, unit_count: 5, class_name: 'CS-5A' },
+  { id: 3, name: 'Operating Systems', code: 'CS303', semester: 5, unit_count: 5, class_name: 'CS-5B' },
+  { id: 4, name: 'Computer Networks', code: 'CS304', semester: 5, unit_count: 6, class_name: 'CS-5A' },
+  { id: 5, name: 'Object-oriented Programming', code: 'CS201', semester: 3, unit_count: 4, class_name: 'CS-3A' },
+  { id: 6, name: 'Introduction to Programming', code: 'CS101', semester: 1, unit_count: 5, class_name: 'CS-1A' },
+];
+
+const DEFAULT_UNITS = [
+  { id: 101, unit_number: 1, title: 'Introduction & Complexity', description: 'Algorithm analysis, time and space complexity', resource_count: 1, topic_count: 2 },
+  { id: 102, unit_number: 2, title: 'Arrays, Stacks & Queues', description: 'Linear data structures and their applications', resource_count: 4, topic_count: 3 },
+  { id: 103, unit_number: 3, title: 'Trees & Graphs', description: 'Binary trees, traversals, graph algorithms', resource_count: 3, topic_count: 3 },
+  { id: 104, unit_number: 4, title: 'Sorting & Searching', description: 'Sorting techniques, hashing, and search methods', resource_count: 2, topic_count: 2 },
+];
+
 export default function SubjectsAndUnits() {
   const [subjects, setSubjects] = useState([]);
   const [units, setUnits] = useState([]);
@@ -43,27 +59,35 @@ export default function SubjectsAndUnits() {
       setError(null);
       const res = await getSubjects({ search: searchQuery });
       const data = res.data?.data || res.data || [];
-      setSubjects(Array.isArray(data) ? data : []);
-      if (Array.isArray(data) && data.length > 0 && !selectedSubject) {
-        setSelectedSubject(data[0]);
+      if (Array.isArray(data) && data.length > 0) {
+        setSubjects(data);
+        if (!selectedSubject) setSelectedSubject(data[0]);
+      } else {
+        setSubjects(DEFAULT_SUBJECTS);
+        if (!selectedSubject) setSelectedSubject(DEFAULT_SUBJECTS[0]);
       }
     } catch (err) {
-      setError('Failed to load subjects.');
-      console.error(err);
+      console.warn('API unavailable, loading mockup subjects:', err.message);
+      setSubjects(DEFAULT_SUBJECTS);
+      if (!selectedSubject) setSelectedSubject(DEFAULT_SUBJECTS[0]);
     } finally {
       setLoading(false);
     }
-  }, [searchQuery]);
+  }, [searchQuery, selectedSubject]);
 
   const fetchUnits = useCallback(async (subjectId) => {
     try {
       setUnitsLoading(true);
       const res = await getUnitsBySubject(subjectId);
       const data = res.data?.data || res.data || [];
-      setUnits(Array.isArray(data) ? data : []);
+      if (Array.isArray(data) && data.length > 0) {
+        setUnits(data);
+      } else {
+        setUnits(DEFAULT_UNITS);
+      }
     } catch (err) {
-      console.error('Failed to load units', err);
-      setUnits([]);
+      console.warn('API unavailable, loading mockup units:', err.message);
+      setUnits(DEFAULT_UNITS);
     } finally {
       setUnitsLoading(false);
     }
