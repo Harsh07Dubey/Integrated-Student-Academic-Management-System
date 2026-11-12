@@ -816,3 +816,83 @@
   color: #f97316;
 }
 
+
+/* Student Dashboard */
+
+.student-dashboard {
+  min-height: 100vh;
+  display: flex;
+  background: #f8fafc;
+  color: #1e293b;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.student-sidebar {
+  width: 250px;
+  min-height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 28px 20px;
+  background: #fff;
+  border-right: 1px solid #eee;
+}
+
+.student-sidebar-bottom {
+  margin-top: auto;
+}
+
+.student-main {
+  width: calc(100% - 250px);
+  margin-left: 250px;
+  padding: 40px 48px;
+}
+
+.student-teacher-name {
+  margin: 8px 0 18px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.student-sidebar .sidebar-link {
+  display: block;
+  font-size: 14px;
+}
+
+.student-sidebar .sidebar-link.active {
+  background: #fff1e8;
+  color: #f97316;
+  font-weight: 700;
+}
+
+.student-sidebar .sidebar-link:hover {
+  background: #fff1e8;
+  color: #f97316;
+}
+
+@media (max-width: 900px) {
+  .student-sidebar {
+    width: 190px;
+  }
+
+  .student-main {
+    width: calc(100% - 190px);
+    margin-left: 190px;
+    padding: 25px;
+  }
+}
+
+@media (max-width: 650px) {
+  .student-sidebar {
+    display: none;
+  }
+
+  .student-main {
+    width: 100%;
+    margin-left: 0;
+    padding: 20px;
+  }
+}
