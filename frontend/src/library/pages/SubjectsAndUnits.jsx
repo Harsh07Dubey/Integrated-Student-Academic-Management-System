@@ -9,19 +9,11 @@ import AddSubjectModal from './AddSubjectModal';
 import AddUnitModal from './AddUnitModal';
 
 const UNIT_COLORS = [
-  'bg-violet-600',
+  'bg-primary-600',
   'bg-blue-500',
   'bg-pink-500',
-  'bg-violet-600',
+  'bg-primary-600',
   'bg-blue-500',
-];
-
-const FILTER_TABS = [
-  'All subjects',
-  'Computer Science',
-  'Semester 1',
-  'Semester 2',
-  'Semester 3',
 ];
 
 export default function SubjectsAndUnits() {
@@ -29,7 +21,6 @@ export default function SubjectsAndUnits() {
   const [subjects, setSubjects] = useState([]);
   const [units, setUnits] = useState([]);
   const [selectedSubject, setSelectedSubject] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
   const [filterSearch, setFilterSearch] = useState('');
   const [activeTab, setActiveTab] = useState('All subjects');
   const [loading, setLoading] = useState(true);
@@ -43,7 +34,7 @@ export default function SubjectsAndUnits() {
     try {
       setLoading(true);
       setError(null);
-      const res = await getSubjects({ search: searchQuery });
+      const res = await getSubjects();
       const data = res.data?.data || res.data || [];
       setSubjects(data);
       setSelectedSubject((current) => data.find((item) => item.id === current?.id) || data[0] || null);
@@ -52,7 +43,7 @@ export default function SubjectsAndUnits() {
     } finally {
       setLoading(false);
     }
-  }, [searchQuery]);
+  }, []);
 
   const fetchUnits = useCallback(async (subjectId) => {
     try {
@@ -78,6 +69,8 @@ export default function SubjectsAndUnits() {
     }
   }, [selectedSubject, fetchUnits]);
 
+  const filters = ['All subjects', ...Array.from(new Set(subjects.map((subject) => subject.semester)))
+    .sort((a, b) => a - b).map((semester) => `Semester ${semester}`)];
   const filteredSubjects = subjects.filter((s) => {
     const matchesSearch =
       !filterSearch ||
@@ -103,46 +96,33 @@ export default function SubjectsAndUnits() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="library-page">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between">
+      <header className="academic-heading">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1>
               Subjects &amp; Units
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Subjects &amp; units — A clear structure for every subject you
-              teach.
+            <p>
+              Browse subjects and their syllabus units.
             </p>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="relative">
-              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-              <input
-                type="text"
-                placeholder="Search..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent w-64"
-              />
-            </div>
+          <div className="flex flex-wrap items-center gap-3 max-w-full">
             <button
               hidden={!teacher}
               onClick={() => setShowAddSubject(true)}
-              className="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               <FiPlus className="w-4 h-4" />
               Add subject
             </button>
           </div>
-        </div>
-      </div>
+      </header>
 
       {/* Filter row */}
-      <div className="bg-white border-b border-gray-200 px-8 py-3">
-        <div className="flex items-center gap-2">
-          {FILTER_TABS.map((tab) => (
+      <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 mb-3">
+        <div className="flex flex-wrap items-center gap-2">
+          {filters.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
@@ -155,23 +135,23 @@ export default function SubjectsAndUnits() {
               {tab}
             </button>
           ))}
-          <div className="ml-auto relative">
+          <div className="relative">
             <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
             <input
               type="text"
               placeholder="Search subjects..."
               value={filterSearch}
               onChange={(e) => setFilterSearch(e.target.value)}
-              className="pl-9 pr-4 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent w-52"
+              className="pl-9 pr-4 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent w-52"
             />
           </div>
         </div>
       </div>
 
       {/* Main content — split panel */}
-      <div className="flex" style={{ height: 'calc(100vh - 180px)' }}>
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,18rem)_minmax(0,1fr)]">
         {/* Left panel — subject list */}
-        <div className="w-80 border-r border-gray-200 bg-white overflow-y-auto flex flex-col">
+        <div className="border border-gray-200 rounded-xl bg-white overflow-y-auto flex flex-col">
           <div className="px-5 py-4 border-b border-gray-100">
             <h3 className="text-xs font-semibold text-gray-500 uppercase tracking-wider">
               Your Subjects
@@ -180,7 +160,7 @@ export default function SubjectsAndUnits() {
 
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600" />
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600" />
             </div>
           ) : error ? (
             <div className="px-5 py-8 text-center text-red-500 text-sm">
@@ -198,7 +178,7 @@ export default function SubjectsAndUnits() {
                   onClick={() => setSelectedSubject(subject)}
                   className={`w-full text-left px-5 py-4 border-b border-gray-50 hover:bg-gray-50 transition-colors ${
                     selectedSubject?.id === subject.id
-                      ? 'border-l-4 border-l-violet-600 bg-violet-50'
+                      ? 'border-l-4 border-l-primary-600 bg-primary-50'
                       : 'border-l-4 border-l-transparent'
                   }`}
                 >
@@ -206,7 +186,7 @@ export default function SubjectsAndUnits() {
                     {subject.name}
                   </p>
                   <p className="text-xs text-gray-500 mt-0.5">{subject.code}</p>
-                  <p className="text-xs text-violet-600 mt-1 flex items-center gap-1">
+                  <p className="text-xs text-primary-600 mt-1 flex items-center gap-1">
                     <FiLayers className="w-3 h-3" />
                     {subject.unit_count || 0} units
                   </p>
@@ -222,7 +202,7 @@ export default function SubjectsAndUnits() {
         </div>
 
         {/* Right panel — subject details & units */}
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="min-w-0 p-4 sm:p-6 bg-white border border-gray-200 rounded-xl">
           {selectedSubject ? (
             <>
               {/* Subject header */}
@@ -241,7 +221,7 @@ export default function SubjectsAndUnits() {
                     </span>
                   </div>
                   {selectedSubject.class_name && (
-                    <p className="text-sm text-violet-600 mt-1">
+                    <p className="text-sm text-primary-600 mt-1">
                       Linked to {selectedSubject.class_name}
                     </p>
                   )}
@@ -249,7 +229,7 @@ export default function SubjectsAndUnits() {
                 <button
                   hidden={!teacher}
                   onClick={() => setShowAddUnit(true)}
-                  className="flex items-center gap-2 border-2 border-violet-600 text-violet-600 hover:bg-violet-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  className="flex items-center gap-2 border-2 border-primary-600 text-primary-600 hover:bg-primary-50 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
                 >
                   <FiPlus className="w-4 h-4" />
                   Add unit
@@ -259,7 +239,7 @@ export default function SubjectsAndUnits() {
               {/* Units list */}
               {unitsLoading ? (
                 <div className="flex items-center justify-center py-12">
-                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600" />
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600" />
                 </div>
               ) : units.length === 0 ? (
                 <div className="text-center py-12">
@@ -307,7 +287,7 @@ export default function SubjectsAndUnits() {
                           </div>
                         </div>
 
-                        {teacher && <button onClick={() => setEditingUnit(unit)} className="text-violet-600 hover:text-violet-700 text-sm font-medium flex items-center gap-1">
+                        {teacher && <button onClick={() => setEditingUnit(unit)} className="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1">
                           <FiEdit className="w-3.5 h-3.5" />
                           Edit
                         </button>}

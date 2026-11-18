@@ -55,7 +55,7 @@ export default function AddUnitModal({ subjectId, subjectName, unit, onClose, on
             required
             value={unitNumber}
             onChange={(e) => setUnitNumber(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -69,7 +69,7 @@ export default function AddUnitModal({ subjectId, subjectName, unit, onClose, on
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. Introduction & Complexity"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -82,7 +82,7 @@ export default function AddUnitModal({ subjectId, subjectName, unit, onClose, on
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="e.g. Algorithm analysis, time and space complexity"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -97,7 +97,7 @@ export default function AddUnitModal({ subjectId, subjectName, unit, onClose, on
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-lg hover:bg-violet-700 disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
           >
             {loading ? 'Saving…' : 'Save unit'}
           </button>

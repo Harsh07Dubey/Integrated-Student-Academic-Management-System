@@ -1,17 +1,21 @@
 .academic-portal {
   display: grid;
   grid-template-columns: 224px minmax(0, 1fr);
-  min-height: 100vh;
-  background: #f3f6fa;
-  color: #14243b;
+  min-height: 100svh;
+  background: var(--canvas);
+  color: var(--ink);
   font-family: "Segoe UI", system-ui, sans-serif;
 }
 .academic-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: 32px;
   padding: 28px 18px;
-  background: #13233b;
+  background: var(--navy);
   color: #d3e2f5;
 }
 .academic-brand, .academic-sidebar nav a {
@@ -21,12 +25,16 @@
   text-decoration: none;
 }
 .academic-brand { color: white; font-size: 23px; font-weight: 800; padding: 0 10px; }
-.academic-brand svg { color: #7fe1cc; }
+.academic-brand svg { color: var(--mint); }
 .academic-sidebar nav { display: grid; gap: 6px; }
 .academic-sidebar nav a { color: inherit; border-radius: 9px; padding: 11px 12px; font-size: 14px; }
 .academic-sidebar nav a:hover, .academic-sidebar nav a.active { background: #314966; color: white; }
-.academic-profile { margin-top: auto; border-top: 1px solid #38516d; padding: 14px 10px 0; display: grid; }
+.academic-sidebar nav a.active svg { color: var(--mint); }
+.academic-account { margin-top: auto; border-top: 1px solid #38516d; padding: 14px 10px 0; }
+.academic-profile { display: grid; overflow-wrap: anywhere; }
 .academic-profile span { font-size: 13px; }
+.academic-sign-out { display: flex; align-items: center; gap: 8px; border-radius: 8px; padding: 6px 8px; margin-top: 8px; font-size: 14px; }
+.academic-sign-out:hover { background: #314966; color: white; }
 .academic-main { width: 100%; max-width: 1620px; min-width: 0; padding: clamp(16px, 4vw, 48px); }
 .academic-main [hidden] { display: none !important; }
 .academic-heading, .academic-section-header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
@@ -35,7 +43,7 @@
 .academic-main :is(.academic-section-header, .academic-panel) h2 { font-size: 19px; font-weight: 750; }
 .academic-section-header h2 { display: flex; align-items: center; gap: 9px; }
 .academic-main :is(.academic-panel, .academic-day) h3 { font-weight: 750; }
-.academic-panel, .academic-day { background: white; border: 1px solid #dce5ee; border-radius: 15px; padding: 20px; margin-bottom: 20px; }
+.academic-panel, .academic-day { background: var(--surface); border: 1px solid var(--border); border-radius: 15px; padding: 20px; margin-bottom: 20px; }
 .academic-panel > * + * { margin-top: 12px; }
 .academic-muted { color: #53677f; font-size: 14px; }
 .academic-main :is(.academic-heading, .academic-panel) label { display: grid; gap: 5px; font-size: 13px; font-weight: 650; }
@@ -61,8 +69,8 @@
   font-weight: 650;
   cursor: pointer;
 }
-.academic-main .academic-primary { background: #086759; color: white; min-height: 40px; }
-.academic-main .academic-primary:hover { background: #064a40; }
+.academic-main .academic-primary { background: var(--teal); color: white; min-height: 40px; }
+.academic-main .academic-primary:hover { background: var(--teal-hover); }
 .academic-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .academic-actions button { background: white; border: 1px solid #aebed0; }
 .academic-actions button:hover { background: #eef3f9; }
@@ -84,8 +92,10 @@
 .academic-success, .academic-error { margin-bottom: 14px; padding: 10px 12px; border-radius: 8px; }
 @media (max-width: 760px) {
   .academic-portal { grid-template-columns: minmax(0, 1fr); }
-  .academic-sidebar { gap: 10px; padding: 16px; }
-  .academic-sidebar nav { display: flex; flex-wrap: wrap; }
-  .academic-sidebar nav a { padding: 6px; }
+  .academic-sidebar { position: static; height: auto; display: grid; grid-template-columns: 1fr auto; gap: 10px; padding: 12px 16px; }
+  .academic-sidebar nav { grid-column: 1 / -1; grid-row: 2; display: flex; overflow-x: auto; padding: 3px; }
+  .academic-sidebar nav a { padding: 7px 9px; flex: none; }
+  .academic-account { margin: 0; border: 0; padding: 0; align-self: center; }
+  .academic-sign-out { margin: 0; }
   .academic-profile { display: none; }
 }

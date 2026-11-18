@@ -2,7 +2,7 @@
 import { Navigate } from "react-router-dom";
 import AuthCheck from "./AuthCheck";
 
-function ProtectedRoute({ children, allowedRole }) {
+function ProtectedRoute({ children, allowedRole, verifySession = true }) {
   const token = localStorage.getItem("token");
   const user = JSON.parse(localStorage.getItem("user") || "null");
 
@@ -18,7 +18,7 @@ function ProtectedRoute({ children, allowedRole }) {
 
   return (
     <>
-      <AuthCheck />
+      {verifySession && <AuthCheck />}
       {children}
     </>
   );

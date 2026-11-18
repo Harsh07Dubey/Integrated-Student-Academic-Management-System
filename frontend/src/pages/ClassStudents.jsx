@@ -1,3 +1,4 @@
+import { Users } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -32,7 +33,6 @@ function ClassStudents() {
           throw new Error(data.message || "Unable to load students");
         }
 
-        // Adjust these fields if your API uses a different response shape.
         setClassInfo(data.class || null);
         setStudents(Array.isArray(data.students) ? data.students : []);
       } catch (err) {
@@ -49,10 +49,10 @@ function ClassStudents() {
     <div className="students-page">
       <header className="students-header">
         <Link to="/teacher-dashboard" className="back-link">
-          ← Back to Dashboard
+          ← Back to dashboard
         </Link>
 
-        <h1>Class Students</h1>
+        <h1>Class roster</h1>
         <p>View students enrolled in this class.</p>
       </header>
 
@@ -83,7 +83,7 @@ function ClassStudents() {
 
             {students.length === 0 ? (
               <div className="empty-state">
-                <span>👨‍🎓</span>
+                <Users size={30} aria-hidden="true" />
                 <h3>No students enrolled yet</h3>
                 <p>Students will appear here after joining with the class code.</p>
               </div>
@@ -105,7 +105,7 @@ function ClassStudents() {
                         <td>{index + 1}</td>
                         <td>
                           <div className="student-name">
-                            <span className="student-avatar">
+                            <span className="student-avatar" aria-hidden="true">
                               {student.name?.charAt(0).toUpperCase()}
                             </span>
                             {student.name}

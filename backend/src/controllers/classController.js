@@ -159,7 +159,7 @@ const getClassStudents = async (req, res) => {
         const { id } = req.params;
 
         const classResult = await pool.query(
-            "SELECT id FROM classes WHERE id = $1 AND teacher_id = $2",
+            "SELECT id, class_name, class_code FROM classes WHERE id = $1 AND teacher_id = $2",
             [id, req.user.id]
         );
 
@@ -181,6 +181,7 @@ const getClassStudents = async (req, res) => {
 
         res.status(200).json({
             success: true,
+            class: classResult.rows[0],
             students: result.rows
         });
 

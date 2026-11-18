@@ -106,7 +106,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="e.g. End Semester Exam Paper 2025"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -119,7 +119,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
               value={subjectId}
               onChange={handleSubjectChange}
               required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="">Select subject</option>
               {subjects.map((sub) => (
@@ -137,7 +137,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
             <select
               value={semester}
               onChange={(e) => setSemester(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                 <option key={sem} value={sem}>
@@ -160,7 +160,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
               required
               value={examYear}
               onChange={(e) => setExamYear(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
 
@@ -171,7 +171,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
             <select
               value={examType}
               onChange={(e) => setExamType(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               <option value="end_semester">End Semester</option>
               <option value="mid_semester">Mid Semester</option>
@@ -188,7 +188,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
               value={totalMarks}
               onChange={(e) => setTotalMarks(e.target.value)}
               placeholder="100"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -203,7 +203,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
             value={durationHours}
             onChange={(e) => setDurationHours(e.target.value)}
             placeholder="3.0"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -218,7 +218,7 @@ export default function UploadPyqModal({ onClose, onSuccess }) {
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-lg hover:bg-violet-700 disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
           >
             {loading ? 'Uploading...' : 'Upload Paper'}
           </button>

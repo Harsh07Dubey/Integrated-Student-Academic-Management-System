@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
-import { BookOpen, CalendarDays, ClipboardCheck, FileText, GraduationCap, LayoutDashboard } from "lucide-react";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
+import { BookOpen, CalendarDays, ClipboardCheck, FileText, GraduationCap, LayoutDashboard, LogOut } from "lucide-react";
 import "./academics.css";
 
-export const academicLinks = [
+const academicLinks = [
   ["/timetable", "Timetable", CalendarDays],
   ["/attendance", "Attendance", ClipboardCheck],
   ["/subjects", "Subjects & units", BookOpen],
@@ -29,17 +29,30 @@ export default function AcademicPortal() {
   const user = JSON.parse(localStorage.getItem("user"));
   const teacher = user.role === "TEACHER";
   const dashboard = teacher ? "/teacher-dashboard" : "/student-dashboard";
+  const navigate = useNavigate();
+  function signOut() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate("/login", { replace: true });
+  }
   return (
     <div className="academic-portal">
       <aside className="academic-sidebar">
         <Link to={dashboard} className="academic-brand"><GraduationCap size={24} /> ISAMS</Link>
         <nav aria-label="Academic navigation">
-          <Link to={dashboard}><LayoutDashboard size={18} /> Dashboard</Link>
+          <NavLink to={dashboard}><LayoutDashboard size={18} /> Dashboard</NavLink>
           {academicLinks.map(([href, label, Icon]) => (
             <NavLink key={href} to={href}><Icon size={18} />{label}</NavLink>
           ))}
         </nav>
-        <div className="academic-profile"><strong>{user.name}</strong><span>{teacher ? "Teacher" : "Student"}</span></div>
+        <div className="academic-account">
+          <div className="academic-profile">
+            <strong>{user.name}</strong><span>{teacher ? "Teacher" : "Student"}</span>
+          </div>
+          <button type="button" className="academic-sign-out" onClick={signOut}>
+            <LogOut size={17} /> <span>Sign out</span>
+          </button>
+        </div>
       </aside>
       <main className="academic-main"><Outlet context={{ teacher }} /></main>
     </div>

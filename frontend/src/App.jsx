@@ -22,34 +22,10 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      <Route
-        path="/student-dashboard"
-        element={
-          <ProtectedRoute allowedRole="STUDENT">
-            <StudentDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/teacher-dashboard"
-        element={
-          <ProtectedRoute allowedRole="TEACHER">
-            <TeacherDashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/teacher/classes/:id/students"
-        element={
-          <ProtectedRoute allowedRole="TEACHER">
-            <ClassStudents />
-          </ProtectedRoute>
-        }
-      />
-
       <Route element={<ProtectedRoute><AcademicPortal /></ProtectedRoute>}>
+        <Route path="/student-dashboard" element={<ProtectedRoute allowedRole="STUDENT" verifySession={false}><StudentDashboard /></ProtectedRoute>} />
+        <Route path="/teacher-dashboard" element={<ProtectedRoute allowedRole="TEACHER" verifySession={false}><TeacherDashboard /></ProtectedRoute>} />
+        <Route path="/teacher/classes/:id/students" element={<ProtectedRoute allowedRole="TEACHER" verifySession={false}><ClassStudents /></ProtectedRoute>} />
         <Route path="/timetable" element={<Timetable />} />
         <Route path="/attendance" element={<Attendance />} />
         <Route path="/subjects" element={<SubjectsAndUnits />} />

@@ -1,4 +1,4 @@
-import { academicLinks } from "./AcademicPortal";
+import { BookOpen, CalendarDays, ClipboardCheck } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -77,61 +77,9 @@ function TeacherDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
 
   return (
-    <div className="teacher-dashboard">
-      <aside className="teacher-sidebar">
-        <div className="sidebar-brand">
-          <div className="brand-logo">IS</div>
-          <span>ISAMS</span>
-        </div>
-
-        <p className="sidebar-label">MAIN MENU</p>
-
-        <button
-            className="sidebar-link active"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth"})}
-        >
-            Dashboard
-        </button>
-
-        <button
-            className="sidebar-link"
-            onClick={() =>
-                document.getElementById("my-classes")?.scrollIntoView({
-                    behavior: "smooth",
-                })
-            }
-        >
-            My Classes
-        </button>
-
-        {academicLinks.map(([path, label]) => (
-          <button key={path} className="sidebar-link" onClick={() => navigate(path)}>{label}</button>
-        ))}
-        <div className="sidebar-bottom">
-          <div className="teacher-profile">
-            <div className="profile-avatar">
-              {user?.name?.charAt(0).toUpperCase() || "T"}
-            </div>
-            <div>
-              <strong>{user?.name}</strong>
-              <small>Teacher</small>
-            </div>
-          </div>
-
-          <button className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </aside>
-
-      <main className="teacher-main">
+    <div className="dashboard-page">
         <header className="dashboard-header">
           <div>
             <p className="dashboard-eyebrow">TEACHER PORTAL</p>
@@ -146,12 +94,16 @@ function TeacherDashboard() {
 
         <section className="dashboard-welcome">
           <div>
-            <span>YOUR ACADEMIC WORKSPACE</span>
-            <h2>Manage your classes with ease.</h2>
+            <h2>Class management</h2>
             <p>Create classes and share the class code with your students.</p>
           </div>
-          <div className="welcome-icon">📚</div>
+          <BookOpen className="welcome-icon" size={50} aria-hidden="true" />
         </section>
+
+        <nav className="dashboard-shortcuts" aria-label="Quick actions">
+          <button onClick={() => navigate("/timetable")}><CalendarDays size={19} /> Timetable</button>
+          <button onClick={() => navigate("/attendance")}><ClipboardCheck size={19} /> Attendance</button>
+        </nav>
 
         <section className="teacher-stats">
           <div className="stat-card">
@@ -159,7 +111,7 @@ function TeacherDashboard() {
             <h2>{classes.length}</h2>
           </div>
           <div className="stat-card">
-            <span>Total Students</span>
+            <span>Class enrollments</span>
             <h2>
               {classes.reduce(
                 (total, item) => total + Number(item.student_count || 0),
@@ -180,6 +132,7 @@ function TeacherDashboard() {
           <form className="create-class-form" onSubmit={handleCreateClass}>
             <input
               type="text"
+              aria-label="Class name"
               placeholder="Enter class name (e.g. DBMS - Semester 5)"
               value={className}
               onChange={(e) => setClassName(e.target.value)}
@@ -208,7 +161,7 @@ function TeacherDashboard() {
             <p>Loading classes...</p>
           ) : classes.length === 0 ? (
             <div className="empty-state">
-              <span>📚</span>
+              <BookOpen size={30} aria-hidden="true" />
               <h3>No classes yet</h3>
               <p>Create your first class to get started.</p>
             </div>
@@ -217,9 +170,9 @@ function TeacherDashboard() {
               {classes.map((item) => (
                 <div className="class-card" key={item.id}>
                   <div className="class-card-top">
-                    <span className="class-icon">📖</span>
+                    <BookOpen className="class-icon" size={21} aria-hidden="true" />
                     <span className="class-count">
-                      {item.student_count || 0} Students
+                      {item.student_count || 0} {Number(item.student_count) === 1 ? "student" : "students"}
                     </span>
                   </div>
 
@@ -241,7 +194,6 @@ function TeacherDashboard() {
             </div>
           )}
         </section>
-      </main>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { academicLinks } from "./AcademicPortal";
+import { BookOpen, CalendarDays, ClipboardCheck, GraduationCap } from "lucide-react";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -77,62 +77,9 @@ function StudentDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    navigate("/login");
-  };
 
   return (
-    <div className="student-dashboard">
-      <aside className="student-sidebar">
-        <div className="sidebar-brand">
-          <div className="brand-logo">IS</div>
-          <span>ISAMS</span>
-        </div>
-
-        <p className="sidebar-label">MAIN MENU</p>
-
-        <button
-          className="sidebar-link active"
-          onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-        >
-          Dashboard
-        </button>
-
-        <button
-          className="sidebar-link"
-          onClick={() =>
-            document.getElementById("student-classes")?.scrollIntoView({
-              behavior: "smooth",
-            })
-          }
-        >
-          My Classes
-        </button>
-
-        {academicLinks.map(([path, label]) => (
-          <button key={path} className="sidebar-link" onClick={() => navigate(path)}>{label}</button>
-        ))}
-
-        <div className="student-sidebar-bottom">
-          <div className="teacher-profile">
-            <div className="profile-avatar">
-              {user?.name?.charAt(0).toUpperCase() || "S"}
-            </div>
-            <div>
-              <strong>{user?.name}</strong>
-              <small>Student</small>
-            </div>
-          </div>
-
-          <button className="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </aside>
-
-      <main className="student-main">
+    <div className="dashboard-page">
         <header className="dashboard-header">
           <div>
             <p className="dashboard-eyebrow">STUDENT PORTAL</p>
@@ -147,12 +94,16 @@ function StudentDashboard() {
 
         <section className="dashboard-welcome">
           <div>
-            <span>YOUR LEARNING SPACE</span>
-            <h2>Learn, connect and grow.</h2>
+            <h2>Your classes and schedule</h2>
             <p>Access your classes and stay connected with your teachers.</p>
           </div>
-          <div className="welcome-icon">🎓</div>
+          <GraduationCap className="welcome-icon" size={50} aria-hidden="true" />
         </section>
+
+        <nav className="dashboard-shortcuts" aria-label="Quick actions">
+          <button onClick={() => navigate("/timetable")}><CalendarDays size={19} /> Timetable</button>
+          <button onClick={() => navigate("/attendance")}><ClipboardCheck size={19} /> Attendance</button>
+        </nav>
 
         <section className="teacher-stats">
           <div className="stat-card">
@@ -160,10 +111,6 @@ function StudentDashboard() {
             <h2>{classes.length}</h2>
           </div>
 
-          <div className="stat-card">
-            <span>Academic Portal</span>
-            <h2>Active</h2>
-          </div>
         </section>
 
         <section className="create-class-section">
@@ -177,6 +124,7 @@ function StudentDashboard() {
           <form className="create-class-form" onSubmit={handleJoinClass}>
             <input
               type="text"
+              aria-label="Class code"
               placeholder="Enter class code (e.g. B39EEBD2)"
               value={classCode}
               onChange={(e) => setClassCode(e.target.value)}
@@ -205,7 +153,7 @@ function StudentDashboard() {
             <p>Loading classes...</p>
           ) : classes.length === 0 ? (
             <div className="empty-state">
-              <span>📚</span>
+              <BookOpen size={30} aria-hidden="true" />
               <h3>No classes joined yet</h3>
               <p>Enter a class code above to join your first class.</p>
             </div>
@@ -214,7 +162,7 @@ function StudentDashboard() {
               {classes.map((item) => (
                 <div className="class-card" key={item.id}>
                   <div className="class-card-top">
-                    <span className="class-icon">📖</span>
+                    <BookOpen className="class-icon" size={21} aria-hidden="true" />
                     <span className="class-count">Enrolled</span>
                   </div>
 
@@ -232,7 +180,6 @@ function StudentDashboard() {
             </div>
           )}
         </section>
-      </main>
     </div>
   );
 }

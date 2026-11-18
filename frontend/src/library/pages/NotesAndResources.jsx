@@ -180,19 +180,18 @@ export default function NotesAndResources() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="library-page">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200 px-8 py-6">
-        <div className="flex items-center justify-between">
+      <header className="academic-heading">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1>
               Notes &amp; Resources
             </h1>
-            <p className="text-sm text-gray-500 mt-1">
-              Everything your students need, organized in one place.
+            <p>
+              Find class notes, PDFs, and study material.
             </p>
           </div>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-3 max-w-full">
             <div className="relative">
               <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
               <input
@@ -200,24 +199,23 @@ export default function NotesAndResources() {
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent w-64"
+                className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent max-w-full w-60"
               />
             </div>
             <button
               hidden={!teacher}
               onClick={() => fileInputRef.current?.click()}
-              className="flex items-center gap-2 bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
             >
               <FiUploadCloud className="w-4 h-4" />
               Upload material
             </button>
           </div>
-        </div>
-      </div>
+      </header>
 
       {/* Filter tabs */}
-      <div className="bg-white border-b border-gray-200 px-8 py-3">
-        <div className="flex items-center gap-2">
+      <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 mb-3">
+        <div className="flex flex-wrap items-center gap-2">
           {RESOURCE_TABS.map((tab) => (
             <button
               key={tab}
@@ -235,12 +233,12 @@ export default function NotesAndResources() {
       </div>
 
       {/* Sub-filter row */}
-      <div className="bg-white border-b border-gray-200 px-8 py-3">
-        <div className="flex items-center gap-3">
+      <div className="bg-white border border-gray-200 rounded-xl px-4 py-3 mb-3">
+        <div className="flex flex-wrap items-center gap-3">
           <select
             value={selectedSubjectFilter}
             onChange={(e) => setSelectedSubjectFilter(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             <option value="">All subjects</option>
             {subjects.map((s) => (
@@ -252,7 +250,7 @@ export default function NotesAndResources() {
           <select
             value={selectedUnitFilter}
             onChange={(e) => setSelectedUnitFilter(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             <option value="">All units</option>
             {units.map((u) => (
@@ -264,7 +262,7 @@ export default function NotesAndResources() {
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value)}
-            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -276,7 +274,7 @@ export default function NotesAndResources() {
       </div>
 
       {/* Main content — split layout */}
-      <div className="flex flex-col xl:flex-row gap-8 px-4 sm:px-8 py-6">
+      <div className="flex flex-col xl:flex-row gap-4 py-3">
         {/* Left — Resource list */}
         <div className="flex-1">
           <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">
@@ -285,7 +283,7 @@ export default function NotesAndResources() {
 
           {loading ? (
             <div className="flex items-center justify-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-violet-600" />
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-600" />
             </div>
           ) : error ? (
             <div className="text-red-500 text-sm py-8 text-center">{error}</div>
@@ -299,7 +297,7 @@ export default function NotesAndResources() {
               {resources.map((resource) => (
                 <div
                   key={resource.id}
-                  className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow flex items-center gap-4"
+                  className="bg-white rounded-xl border border-gray-200 p-4 shadow-sm hover:shadow-md transition-shadow flex flex-wrap items-center gap-3"
                 >
                   {/* File icon */}
                   <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center shrink-0">
@@ -321,8 +319,8 @@ export default function NotesAndResources() {
                     </p>
                   </div>
 
-                  {['pdf', 'application/pdf'].includes(resource.file_type) && <button className="text-violet-700 text-sm font-medium" onClick={() => openResource(resource, true)}>Preview</button>}
-                  <button className="text-violet-700 text-sm font-medium" onClick={() => openResource(resource)}>Download</button>
+                  {['pdf', 'application/pdf'].includes(resource.file_type) && <button className="text-primary-700 text-sm font-medium" onClick={() => openResource(resource, true)}>Preview</button>}
+                  <button className="text-primary-700 text-sm font-medium" onClick={() => openResource(resource)}>Download</button>
                 </div>
               ))}
             </div>
@@ -350,14 +348,14 @@ export default function NotesAndResources() {
               onClick={() => fileInputRef.current?.click()}
               className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-colors ${
                 dragOver
-                  ? 'border-violet-500 bg-violet-50'
-                  : 'border-gray-300 hover:border-violet-400 hover:bg-gray-50'
+                  ? 'border-primary-500 bg-primary-50'
+                  : 'border-gray-300 hover:border-primary-400 hover:bg-gray-50'
               }`}
             >
               <FiUploadCloud className="w-10 h-10 text-gray-400 mx-auto mb-3" />
               {uploadFile ? (
                 <div className="flex items-center justify-center gap-2">
-                  <FiFile className="w-4 h-4 text-violet-600" />
+                  <FiFile className="w-4 h-4 text-primary-600" />
                   <span className="text-sm text-gray-700 truncate max-w-[200px]">
                     {uploadFile.name}
                   </span>
@@ -375,7 +373,7 @@ export default function NotesAndResources() {
                 <>
                   <p className="text-sm text-gray-600 font-medium">
                     Drop your files here or{' '}
-                    <span className="text-violet-600">browse files</span>
+                    <span className="text-primary-600">browse files</span>
                   </p>
                   <p className="text-xs text-gray-400 mt-1">
                     PDF, DOC, PPT, XLS, Images
@@ -402,7 +400,7 @@ export default function NotesAndResources() {
                   value={uploadTitle}
                   onChange={(e) => setUploadTitle(e.target.value)}
                   placeholder="Enter resource title"
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                 />
               </div>
 
@@ -413,7 +411,7 @@ export default function NotesAndResources() {
                 <select
                   value={uploadSubject}
                   onChange={(e) => setUploadSubject(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                 >
                   <option value="">Select subject</option>
                   {subjects.map((s) => (
@@ -431,7 +429,7 @@ export default function NotesAndResources() {
                 <select
                   value={uploadUnit}
                   onChange={(e) => setUploadUnit(e.target.value)}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                   disabled={!uploadSubject}
                 >
                   <option value="">Select unit</option>
@@ -446,7 +444,7 @@ export default function NotesAndResources() {
               <button
                 onClick={handleUpload}
                 disabled={!uploadFile || !uploadTitle || !uploadSubject || uploading}
-                className="w-full bg-violet-600 hover:bg-violet-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-2.5 rounded-lg text-sm font-medium transition-colors"
+                className="w-full bg-primary-600 hover:bg-primary-700 disabled:bg-gray-300 disabled:cursor-not-allowed text-white py-2.5 rounded-lg text-sm font-medium transition-colors"
               >
                 {uploading ? 'Uploading...' : 'Upload & share'}
               </button>

@@ -54,7 +54,7 @@ export default function AddSubjectModal({ onClose, onSuccess }) {
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder="e.g. Data Structures & Algorithms"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
           />
         </div>
 
@@ -68,7 +68,7 @@ export default function AddSubjectModal({ onClose, onSuccess }) {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder="e.g. CS301"
-            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent uppercase"
+            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent uppercase"
           />
         </div>
 
@@ -80,7 +80,7 @@ export default function AddSubjectModal({ onClose, onSuccess }) {
             <select
               value={semester}
               onChange={(e) => setSemester(Number(e.target.value))}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             >
               {[1, 2, 3, 4, 5, 6, 7, 8].map((sem) => (
                 <option key={sem} value={sem}>
@@ -99,7 +99,7 @@ export default function AddSubjectModal({ onClose, onSuccess }) {
               value={classId}
               onChange={(e) => setClassId(e.target.value)}
               placeholder="e.g. 1"
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
             />
           </div>
         </div>
@@ -115,7 +115,7 @@ export default function AddSubjectModal({ onClose, onSuccess }) {
           <button
             type="submit"
             disabled={loading}
-            className="px-4 py-2 text-sm font-medium text-white bg-violet-600 rounded-lg hover:bg-violet-700 disabled:opacity-50"
+            className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-lg hover:bg-primary-700 disabled:opacity-50"
           >
             {loading ? 'Creating...' : 'Create Subject'}
           </button>
