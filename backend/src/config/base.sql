@@ -1,0 +1,21 @@
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  email TEXT NOT NULL UNIQUE,
+  password_hash TEXT NOT NULL,
+  role TEXT NOT NULL CHECK (role IN ('TEACHER', 'STUDENT')),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS classes (
+  id SERIAL PRIMARY KEY,
+  class_name VARCHAR(150) NOT NULL,
+  class_code TEXT NOT NULL UNIQUE,
+  teacher_id INTEGER NOT NULL REFERENCES users(id),
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS enrollments (
+  student_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+  class_id INTEGER REFERENCES classes(id) ON DELETE CASCADE,
+  joined_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (student_id, class_id)
+);

@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "";
 
 function ClassStudents() {
   const { id } = useParams();

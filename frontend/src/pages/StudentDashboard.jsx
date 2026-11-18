@@ -1,8 +1,9 @@
+import { academicLinks } from "./AcademicPortal";
 
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const API_URL = "http://localhost:5000";
+const API_URL = "";
 
 function StudentDashboard() {
   const navigate = useNavigate();
@@ -109,6 +110,10 @@ function StudentDashboard() {
         >
           My Classes
         </button>
+
+        {academicLinks.map(([path, label]) => (
+          <button key={path} className="sidebar-link" onClick={() => navigate(path)}>{label}</button>
+        ))}
 
         <div className="student-sidebar-bottom">
           <div className="teacher-profile">

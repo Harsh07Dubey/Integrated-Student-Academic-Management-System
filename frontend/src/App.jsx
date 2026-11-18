@@ -6,6 +6,13 @@ import StudentDashboard from "./pages/StudentDashboard";
 import TeacherDashboard from "./pages/TeacherDashboard";
 import ClassStudents from "./pages/ClassStudents";
 import ProtectedRoute from "./components/ProtectedRoute";
+import AcademicPortal from "./pages/AcademicPortal";
+import Timetable from "./pages/Timetable";
+import Attendance from "./pages/Attendance";
+import SubjectsAndUnits from "./library/pages/SubjectsAndUnits";
+import NotesAndResources from "./library/pages/NotesAndResources";
+import PYQRepository from "./library/pages/PYQRepository";
+import "./library/library.css";
 import "./App.css";
 
 function App() {
@@ -42,6 +49,13 @@ function App() {
         }
       />
 
+      <Route element={<ProtectedRoute><AcademicPortal /></ProtectedRoute>}>
+        <Route path="/timetable" element={<Timetable />} />
+        <Route path="/attendance" element={<Attendance />} />
+        <Route path="/subjects" element={<SubjectsAndUnits />} />
+        <Route path="/resources" element={<NotesAndResources />} />
+        <Route path="/pyq" element={<PYQRepository />} />
+      </Route>
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   );

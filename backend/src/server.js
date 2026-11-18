@@ -7,13 +7,17 @@ const authRoutes = require("./routes/authRoutes");
 const authenticateToken = require("./middleware/authMiddleware");
 const authorizeRole = require("./middleware/roleMiddleware");
 const classRoutes = require("./routes/classRoutes");
+const academicRoutes = require("./routes/academicRoutes");
+const libraryRoutes = require("./routes/libraryRoutes");
 
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/api/classes/:classId", academicRoutes);
 app.use("/api/classes", classRoutes);
+app.use("/api", libraryRoutes);
 
 // Home route
 app.get("/", (req, res) => {
@@ -40,7 +44,7 @@ app.get("/api/db-test", async (req, res) => {
 
         res.json({
             success: true,
-            message: "Neon PostgreSQL connected successfully!",
+            message: "PostgreSQL connected successfully!",
             time: result.rows[0].now
         });
     } catch (error) {
