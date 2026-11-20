@@ -1,9 +1,8 @@
 import AuthLayout from "../components/AuthLayout";
+import { authRequest } from "../authRequest";
 
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-const API_URL = "";
 
 function Register() {
   const navigate = useNavigate();
@@ -28,19 +27,7 @@ function Register() {
     setLoading(true);
 
     try {
-      const response = await fetch(`${API_URL}/api/auth/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(form),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Registration failed");
-      }
+      await authRequest("register", form, "Registration failed");
 
       navigate("/login", { replace: true, state: { email: form.email, registered: true } });
     } catch (err) {
